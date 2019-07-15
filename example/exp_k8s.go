@@ -4,23 +4,18 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"path/filepath"
+
+	"github.com/zhanghe06/kubernetes_project/utils"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
-	"os"
-	"path/filepath"
 )
-
-func homeDir() string {
-	if h := os.Getenv("HOME"); h != "" {
-		return h
-	}
-	return os.Getenv("USERPROFILE") // windows
-}
 
 func main() {
 	var kubeconfig *string
-	if home := homeDir(); home != "" {
+	if home := utils.HomeDir(); home != "" {
 		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
 	} else {
 		kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
@@ -33,8 +28,8 @@ func main() {
 		panic(err.Error())
 	}
 
-	// create the clientset
-	clientset, err := kubernetes.NewForConfig(config)
+	// create the k8s clientset
+	clientK8s, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -42,7 +37,7 @@ func main() {
 	// Verify operator installation
 	ns := "kube-system"
 	ls := "app=kubedb"
-	pods, err := clientset.CoreV1().Pods(ns).List(metav1.ListOptions{LabelSelector: ls})
+	pods, err := clientK8s.CoreV1().Pods(ns).List(metav1.ListOptions{LabelSelector: ls})
 	if err != nil {
 		panic(err.Error())
 	}

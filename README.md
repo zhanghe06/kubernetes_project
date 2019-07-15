@@ -4,15 +4,23 @@
 
 [https://github.com/kubernetes/kubernetes/tree/master/staging/src/k8s.io/client-go](https://github.com/kubernetes/kubernetes/tree/master/staging/src/k8s.io/client-go)
 
+[kubedb 示例模板](https://github.com/kubedb/cli/tree/0.12.0/docs/examples)
+
+[kubedb 示例指导](https://kubedb.com/docs/0.12.0/guides/)
 
 项目演示
 ```
+# 配置代理
 export http_proxy=http://127.0.0.1:1087
 export https_proxy=http://127.0.0.1:1087
 
+# 配置依赖
 go get k8s.io/client-go/kubernetes
-go get github.com/kubedb/apimachinery
 
+go get github.com/kubedb/apimachinery/apis/kubedb/v1alpha1
+go get github.com/imdario/mergo
+
+# 配置环境
 govendor init
 govendor add +e
 ```
@@ -20,55 +28,15 @@ govendor add +e
 
 获取 Kubeconfig
 ```
-➜  ~ kubectl config view
-apiVersion: v1
-clusters:
-- cluster:
-    insecure-skip-tls-verify: true
-    server: https://127.0.0.1:6443
-  name: docker-desktop
-contexts:
-- context:
-    cluster: docker-desktop
-    user: docker-desktop
-  name: docker-desktop
-- context:
-    cluster: docker-desktop
-    user: docker-desktop
-  name: docker-for-desktop
-current-context: docker-desktop
-kind: Config
-preferences: {}
-users:
-- name: docker-desktop
-  user:
-    client-certificate-data: REDACTED
-    client-key-data: REDACTED
+kubectl config view
+cat .kube/config
 ```
 
+查询可用版本
 ```
-➜  ~ cat .kube/config
-apiVersion: v1
-clusters:
-- cluster:
-    insecure-skip-tls-verify: true
-    server: https://127.0.0.1:6443
-  name: docker-desktop
-contexts:
-- context:
-    cluster: docker-desktop
-    user: docker-desktop
-  name: docker-desktop
-- context:
-    cluster: docker-desktop
-    user: docker-desktop
-  name: docker-for-desktop
-current-context: docker-desktop
-kind: Config
-preferences: {}
-users:
-- name: docker-desktop
-  user:
-    client-certificate-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUM5RENDQWR5Z0F3SUJBZ0lJUy9iNHNURDdQdkF3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB4T1RBeE1qRXdOalU0TkRWYUZ3MHlNREEzTURnd01qSXlNemhhTURZeApGekFWQmdOVkJBb1REbk41YzNSbGJUcHRZWE4wWlhKek1Sc3dHUVlEVlFRREV4SmtiMk5yWlhJdFptOXlMV1JsCmMydDBiM0F3Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLQW9JQkFRRFR2ZlV3cEc1WGgvQnIKMGR4ZWFpU1h3L3kzb3FJSUR6ekZtVDlCbXhLUTQyNEZTUUlJVUpLdjRVOHhYeVRBOVozbTNUZTBIaFNHRmZTdApJeHJCV1NuTzU3enk2eUN6OFBiQjBxQU1kdUpyRG43UDM3d2J4TVpnYTU5cDJqa0Y2SXE4WlRGZ1AvSmhkZmg4CnduSWw1NGZYOS9YSEtPNXNIcEJwTExFYXpjY0NDVDEzd1JPYUh1dFpKZ2dLdnNXcWVXb1pPZktTWExJL2hCdjEKakZpcGhEb3B2S3VSamFhTWRSQ2YrZmRGSzIrOFcxWjBKOGhLOVlqak52MmZXY283WW9TY1EzQzVVSnRNMVdsTApZbmxlaUdPdHRyWi9NL1JHRDlEbVJDa3F2UmN0aGYvaGxNZ2NoU2k5SXNlcFd2RVZuUTlGYXcwVkd1NitvU3piCnVQYmJNSnN0QWdNQkFBR2pKekFsTUE0R0ExVWREd0VCL3dRRUF3SUZvREFUQmdOVkhTVUVEREFLQmdnckJnRUYKQlFjREFqQU5CZ2txaGtpRzl3MEJBUXNGQUFPQ0FRRUF2T3EzL3dQSFYvenZaUmd3S25YblI0c0hERE84TkM0LwphTVJaWnZyc0pxczBycUUwL1o0QlhGWjdaUjA5cXRjUjdLRkYzWTM2SkM2QTYxbVFPY0NKSU9DdVRLa2hoNE9PCjFUL0d3bk01MUFtUmJsd2lLbVJjeUR6aVFoS0wyaklZZ1pBeGtSdzNhL09XNTlKcmdndjZtQWY4RnhrSVpldVEKb3NsczcyNGhwcnNrMVQ3RU5hc1AyK0ZYRGdFU3dFQWU2UFoyWDlCd3dXemtQT3I0Q0lKbThFdlJGajJSUkV3aAptS3FORUZRWG0vVmhlZ3MvMW9qZWEzNDNvMzJDT1IyRUxBZ20ySHl5WlBsOUJmbVVXS3lKTVpwRnNvY0VRVG91Cm5ZY2plMzhYV0RhNTRUVjVaUUlvOGk0UHZHR2VxMVhVNHA3ZUJqRlNNcmUvYktmL3Z5L3Z4dz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
-    client-key-data: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb3dJQkFBS0NBUUVBMDczMU1LUnVWNGZ3YTlIY1htb2tsOFA4dDZLaUNBODh4WmsvUVpzU2tPTnVCVWtDCkNGQ1NyK0ZQTVY4a3dQV2Q1dDAzdEI0VWhoWDByU01hd1ZrcHp1ZTg4dXNncy9EMndkS2dESGJpYXc1K3o5KzgKRzhUR1lHdWZhZG81QmVpS3ZHVXhZRC95WVhYNGZNSnlKZWVIMS9mMXh5anViQjZRYVN5eEdzM0hBZ2s5ZDhFVAptaDdyV1NZSUNyN0ZxbmxxR1RueWtseXlQNFFiOVl4WXFZUTZLYnlya1kybWpIVVFuL24zUlN0dnZGdFdkQ2ZJClN2V0k0emI5bjFuS08yS0VuRU53dVZDYlROVnBTMko1WG9oanJiYTJmelAwUmcvUTVrUXBLcjBYTFlYLzRaVEkKSElVb3ZTTEhxVnJ4RlowUFJXc05GUnJ1dnFFczI3ajIyekNiTFFJREFRQUJBb0lCQUNsWWRWRXJPblNURWNvcgo3MmpzTnZyL2hSQmlqRnNnaHBCYkRUUUZVTW5EN3c3UEk3dDE2RDY1c3hvRDV3eGFxWnVUNUxXaURnWGtzYU5CCk1JOUNsdHhVK2R0Qk9HQ0trOVJqQ1dlRnEwNldSUUxZUUVYMzFYaXNhek5qTGpGT0tCRURmWEc2NnR4SENkOXEKcEpsc0xXVnBnSytEK1pKWklYKzMvMWtwaDB1SklSUk9TS0d4czZ3TmVWRHEyMGphdU5yUEFoK1ZobWsrNU9CYgpMMzJoYTVhQkpKckk1ZDdGVnRjK1FXZkFJY2ROYTVBU2VRbEJtMWx6SVN5YkxNQ0s4U0JjUE9DOCtIaEpxWmdKCmRFUFlRT3AzMTBRS3lPUzNzWitMYnJQNkV1VUpuQTJlcHZEVXdNLzZtcXp1K0JHSFdxeFZYcFd2V3J5NDVFL00KWlFnUmlnRUNnWUVBL21jMXdMdFNDZmUzRXF6T2xVdVUrVExwWUpiaitFSGFPT0lIT3VwdEI1Qk95Mmh6K1dFZgoydFJtRC9ITXMzZEMreXc4aUMwRkc2a08vZzdFUXJzdFFDanFCSHBMdzk0WndOS2tLcTdEdjd3RmRlMkNVdTJZCjAwa202a0V0TEJNYU1jN0MweFFQVXRxS3JWd251TlFJYk55TTZieEJGNU5lWGdCRDJTNlNQWUVDZ1lFQTFSSXkKaGk3SzJrT0xJei8zdnlaaEJCcUNlN21weHpMVWVYeUxHY1RwN0RSUGxockpjYzFPZncrTlA4UXFicjQ0Tk93TwpoRDBEZXFFU0h1VzhzUG5uR0g2R1R2L3llUnJ6WkwzbURQY1lMMDFtRkhZTDMyajZHRGNXMXR3YWZsRERoaEp5Cktkc1Raa2pLTG05K3h3VUp0OExKdHdWRnh3RHdQMzFtdkdiNGk2MENnWUJKYmJqU0hEOGRxV1lwK2I3VzBLMzcKRDNyVTZqaDZtMmRGSzlneVpSOTdJMmZheGhkVFQzbEdUQy81UWkxM1QyRUI1azdDYjF3ZUU3bkVFcmNMRzhOLwoxVTlXWTRZaXpxUllSM1FpN2JhS1ROYTJwd3NLckpHRHlvVjA3OEwrQ2JWeDB0L2cxTlZuY0xTK1BPOHFKZWtZCm9yLzVadURTMFRKWHAzUHQ1OGRHQVFLQmdRQ0lreGwvbVE2OXlQMnVvcG9URkc2clNyTEl5OEZmeGQwYjRoRG4KZTZqVmx0Sk16TzdDMjI2dFV6S2U1UWF0NVkveG5EM1IxYW9kT0pGODdKVitlekQrS2x1ODE2SjhyaUhGT1ZQMAppNDRkQStlaXhlZm1WRXU2cWRVaDlBT25ZKzF3U3ZLU2tiSmxwZEt5NFJUS1RSaGxpWjN5aXBhbmNKcU9sN3I2Cm1LWklJUUtCZ0RoSHVDQURTTTVLOFEzZ3VsaUZhWDJzeWsxdldiVUY5TUZmN2JmdzdEdTVwKzNWQk1CVWpmdGgKT1lpbE1wMVg2UVp3aURWT2RJSlp1U0FrYjZ0V0dULzErVDNIaTA4bzR5UlRkZDRLTVFVdHVWSXIrWDJTcXd0Rwo1eUJUdU56TnB4aGNBTVNRSitOaGpsb3JKK0gvZ1M5Q0wwQ0M0QzJuMm9SL3l6NFZkWGhICi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg==
+kubectl get mysqlversions
 ```
+
+TODO
+- 私有镜像仓库
+- 模板解析
