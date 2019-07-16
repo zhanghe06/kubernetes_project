@@ -41,6 +41,19 @@ func CreateMysql(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.MySQL, er
 	return mysqlDatabase, err
 }
 
+func GetMysql(clientKubedb *kubedb.Clientset, ns string, name string) (*kubedbV1.MySQL, error) {
+	mysqlInterface := clientKubedb.KubedbV1alpha1().MySQLs(ns)
+	var mysqlDatabase *kubedbV1.MySQL
+	mysqlDatabase, err := mysqlInterface.Get(name, metav1.GetOptions{})
+	return mysqlDatabase, err
+}
+
+func UpdateMysql(clientKubedb *kubedb.Clientset, ns string, mysql *kubedbV1.MySQL) (*kubedbV1.MySQL, error) {
+	mysqlInterface := clientKubedb.KubedbV1alpha1().MySQLs(ns)
+	mysqlDatabase, err := mysqlInterface.Update(mysql)
+	return mysqlDatabase, err
+}
+
 func DeleteMysql(clientKubedb *kubedb.Clientset, ns string, name string) error {
 	mysqlInterface := clientKubedb.KubedbV1alpha1().MySQLs(ns)
 	err := mysqlInterface.Delete(name, nil)

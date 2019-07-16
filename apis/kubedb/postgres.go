@@ -41,6 +41,19 @@ func CreatePostgres(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.Postgr
 	return postgresDatabase, err
 }
 
+func GetPostgres(clientKubedb *kubedb.Clientset, ns string, name string) (*kubedbV1.Postgres, error) {
+	postgresInterface := clientKubedb.KubedbV1alpha1().Postgreses(ns)
+	var postgresDatabase *kubedbV1.Postgres
+	postgresDatabase, err := postgresInterface.Get(name, metav1.GetOptions{})
+	return postgresDatabase, err
+}
+
+func UpdatePostgres(clientKubedb *kubedb.Clientset, ns string, postgres *kubedbV1.Postgres) (*kubedbV1.Postgres, error) {
+	postgresInterface := clientKubedb.KubedbV1alpha1().Postgreses(ns)
+	postgresDatabase, err := postgresInterface.Update(postgres)
+	return postgresDatabase, err
+}
+
 func DeletePostgres(clientKubedb *kubedb.Clientset, ns string, name string) error {
 	postgresInterface := clientKubedb.KubedbV1alpha1().Postgreses(ns)
 	err := postgresInterface.Delete(name, nil)

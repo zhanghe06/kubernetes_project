@@ -3,12 +3,11 @@ package kubedb
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-
 	"github.com/ghodss/yaml"
 	catalogV1 "github.com/kubedb/apimachinery/apis/catalog/v1alpha1"
 	kubedbV1 "github.com/kubedb/apimachinery/apis/kubedb/v1alpha1"
 	kubedb "github.com/kubedb/apimachinery/client/clientset/versioned"
+	"io/ioutil"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -38,6 +37,19 @@ func CreateRedis(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.Redis, er
 	var redisDatabase *kubedbV1.Redis
 	redisInterface := clientKubedb.KubedbV1alpha1().Redises(ns)
 	redisDatabase, err = redisInterface.Create(&redis)
+	return redisDatabase, err
+}
+
+func GetRedis(clientKubedb *kubedb.Clientset, ns string, name string) (*kubedbV1.Redis, error) {
+	redisInterface := clientKubedb.KubedbV1alpha1().Redises(ns)
+	var redisDatabase *kubedbV1.Redis
+	redisDatabase, err := redisInterface.Get(name, metav1.GetOptions{})
+	return redisDatabase, err
+}
+
+func UpdateRedis(clientKubedb *kubedb.Clientset, ns string, redis *kubedbV1.Redis) (*kubedbV1.Redis, error) {
+	redisInterface := clientKubedb.KubedbV1alpha1().Redises(ns)
+	redisDatabase, err := redisInterface.Update(redis)
 	return redisDatabase, err
 }
 

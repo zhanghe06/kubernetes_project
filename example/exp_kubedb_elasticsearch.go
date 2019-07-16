@@ -64,7 +64,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Println(elasticsearchDatabase)
+	utils.ShowYaml(elasticsearchDatabase)
 
 	// delete elasticsearch
 	//err = apiKubedb.DeleteElasticsearch(clientKubedb, ns, "elasticsearch-quickstart")

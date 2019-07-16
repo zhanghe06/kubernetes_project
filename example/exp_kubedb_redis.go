@@ -64,11 +64,35 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Println(redisDatabase)
+	utils.ShowYaml(redisDatabase)
+
+	// get redis
+	// kubedb get rd -n demo redis-quickstart -o yaml
+	redisDatabase, err = apiKubedb.GetRedis(clientKubedb, ns, "redis-quickstart")
+	if err != nil {
+		panic(err.Error())
+	}
+	utils.ShowYaml(redisDatabase)
+
+	// update redis
+	/*
+	 * terminationPolicy
+	 * -----------------
+	 * DoNotTerminate	禁止删除
+	 * Pause (Default)	删除实例、保留数据、保留密码
+	 * Delete			删除实例、删除数据、保留密码
+	 * WipeOut			删除实例、删除数据、删除密码
+	 */
+	redisDatabase.Spec.TerminationPolicy = "WipeOut"
+	redisDatabaseNew, err := apiKubedb.UpdateRedis(clientKubedb, ns, redisDatabase)
+	if err != nil {
+		panic(err.Error())
+	}
+	utils.ShowYaml(redisDatabaseNew)
 
 	// delete redis
-	//err = apiKubedb.DeleteRedis(clientKubedb, ns, "redis-quickstart")
-	//if err != nil {
-	//	panic(err.Error())
-	//}
+	err = apiKubedb.DeleteRedis(clientKubedb, ns, "redis-quickstart")
+	if err != nil {
+		panic(err.Error())
+	}
 }

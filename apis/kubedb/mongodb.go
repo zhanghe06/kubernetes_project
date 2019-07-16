@@ -41,6 +41,19 @@ func CreateMongodb(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.MongoDB
 	return mongodbDatabase, err
 }
 
+func GetMongodb(clientKubedb *kubedb.Clientset, ns string, name string) (*kubedbV1.MongoDB, error) {
+	mongodbInterface := clientKubedb.KubedbV1alpha1().MongoDBs(ns)
+	var mongodbDatabase *kubedbV1.MongoDB
+	mongodbDatabase, err := mongodbInterface.Get(name, metav1.GetOptions{})
+	return mongodbDatabase, err
+}
+
+func UpdateMongodb(clientKubedb *kubedb.Clientset, ns string, mongodb *kubedbV1.MongoDB) (*kubedbV1.MongoDB, error) {
+	mongodbInterface := clientKubedb.KubedbV1alpha1().MongoDBs(ns)
+	mongodbDatabase, err := mongodbInterface.Update(mongodb)
+	return mongodbDatabase, err
+}
+
 func DeleteMongodb(clientKubedb *kubedb.Clientset, ns string, name string) error {
 	mongodbInterface := clientKubedb.KubedbV1alpha1().MongoDBs(ns)
 	err := mongodbInterface.Delete(name, nil)

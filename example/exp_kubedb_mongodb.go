@@ -64,7 +64,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Println(mongodbDatabase)
+	utils.ShowYaml(mongodbDatabase)
 
 	// delete mongodb
 	//err = apiKubedb.DeleteMongodb(clientKubedb, ns, "mongodb-quickstart")

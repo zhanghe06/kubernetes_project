@@ -64,7 +64,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Println(memcachedDatabase)
+	utils.ShowYaml(memcachedDatabase)
 
 	// delete memcached
 	//err = apiKubedb.DeleteMemcached(clientKubedb, ns, "memcached-quickstart")

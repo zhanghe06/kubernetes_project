@@ -41,6 +41,19 @@ func CreateMemcached(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.Memca
 	return memcachedDatabase, err
 }
 
+func GetMemcached(clientKubedb *kubedb.Clientset, ns string, name string) (*kubedbV1.Memcached, error) {
+	memcachedInterface := clientKubedb.KubedbV1alpha1().Memcacheds(ns)
+	var memcachedDatabase *kubedbV1.Memcached
+	memcachedDatabase, err := memcachedInterface.Get(name, metav1.GetOptions{})
+	return memcachedDatabase, err
+}
+
+func UpdateMemcached(clientKubedb *kubedb.Clientset, ns string, memcached *kubedbV1.Memcached) (*kubedbV1.Memcached, error) {
+	memcachedInterface := clientKubedb.KubedbV1alpha1().Memcacheds(ns)
+	memcachedDatabase, err := memcachedInterface.Update(memcached)
+	return memcachedDatabase, err
+}
+
 func DeleteMemcached(clientKubedb *kubedb.Clientset, ns string, name string) error {
 	memcachedInterface := clientKubedb.KubedbV1alpha1().Memcacheds(ns)
 	err := memcachedInterface.Delete(name, nil)

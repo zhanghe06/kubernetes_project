@@ -41,6 +41,19 @@ func CreateElasticsearch(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.E
 	return elasticsearchDatabase, err
 }
 
+func GetElasticsearch(clientKubedb *kubedb.Clientset, ns string, name string) (*kubedbV1.Elasticsearch, error) {
+	elasticsearchInterface := clientKubedb.KubedbV1alpha1().Elasticsearches(ns)
+	var elasticsearchDatabase *kubedbV1.Elasticsearch
+	elasticsearchDatabase, err := elasticsearchInterface.Get(name, metav1.GetOptions{})
+	return elasticsearchDatabase, err
+}
+
+func UpdateElasticsearch(clientKubedb *kubedb.Clientset, ns string, elasticsearch *kubedbV1.Elasticsearch) (*kubedbV1.Elasticsearch, error) {
+	elasticsearchInterface := clientKubedb.KubedbV1alpha1().Elasticsearches(ns)
+	elasticsearchDatabase, err := elasticsearchInterface.Update(elasticsearch)
+	return elasticsearchDatabase, err
+}
+
 func DeleteElasticsearch(clientKubedb *kubedb.Clientset, ns string, name string) error {
 	elasticsearchInterface := clientKubedb.KubedbV1alpha1().Elasticsearches(ns)
 	err := elasticsearchInterface.Delete(name, nil)

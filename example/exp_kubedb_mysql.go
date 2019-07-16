@@ -64,7 +64,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Println(mysqlDatabase)
+	utils.ShowYaml(mysqlDatabase)
 
 	// delete mysql
 	//err = apiKubedb.DeleteMysql(clientKubedb, ns, "mysql-quickstart")

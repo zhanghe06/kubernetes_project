@@ -64,7 +64,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Println(postgresDatabase)
+	utils.ShowYaml(postgresDatabase)
 
 	// delete postgres
 	//err = apiKubedb.DeletePostgres(clientKubedb, ns, "postgres-quickstart")
