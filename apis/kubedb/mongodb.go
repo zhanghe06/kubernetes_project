@@ -15,6 +15,7 @@ import (
 func CreateMongodb(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.MongoDB, error)  {
 	// MongoDB
 	templatePath := "templates/tpl_mongodb.yaml"
+	//templatePath := "templates/tpl_cluster_mongodb.yaml"
 	// 获取模板 TODO getTemplate
 	templateContent, err := ioutil.ReadFile(templatePath)
 	if err != nil {

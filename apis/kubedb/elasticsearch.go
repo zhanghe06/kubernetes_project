@@ -14,7 +14,8 @@ import (
 
 func CreateElasticsearch(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.Elasticsearch, error)  {
 	// Elasticsearch
-	templatePath := "templates/tpl_elasticsearch.yaml"
+	//templatePath := "templates/tpl_elasticsearch.yaml"
+	templatePath := "templates/tpl_cluster_elasticsearch.yaml"
 	// 获取模板 TODO getTemplate
 	templateContent, err := ioutil.ReadFile(templatePath)
 	if err != nil {

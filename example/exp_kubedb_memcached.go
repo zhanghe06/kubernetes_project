@@ -31,6 +31,8 @@ func main() {
 	}
 
 	ns := "demo"
+	//serviceName := "memcached-quickstart"
+	serviceName := "memcached-cluster"
 
 	// create the k8s clientset
 	clientK8s, err := kubernetes.NewForConfig(config)
@@ -60,15 +62,40 @@ func main() {
 	}
 
 	// create memcached
-	memcachedDatabase, err := apiKubedb.CreateMemcached(clientKubedb, ns)
+	//memcachedDatabase, err := apiKubedb.CreateMemcached(clientKubedb, ns)
+	//if err != nil {
+	//	panic(err.Error())
+	//}
+	//utils.ShowYaml(memcachedDatabase)
+
+	// get memcached
+	// kubedb get mc -n demo memcached-quickstart -o yaml
+	memcachedDatabase, err := apiKubedb.GetMemcached(clientKubedb, ns, serviceName)
 	if err != nil {
 		panic(err.Error())
 	}
 	utils.ShowYaml(memcachedDatabase)
 
+	// update memcached
+	/*
+	 * terminationPolicy
+	 * -----------------
+	 * DoNotTerminate	禁止删除
+	 * Pause (Default)	删除实例、保留数据、保留密码
+	 * Delete			删除实例、删除数据、保留密码
+	 * WipeOut			删除实例、删除数据、删除密码
+	 */
+	memcachedDatabase.Spec.TerminationPolicy = "WipeOut"
+	memcachedDatabaseNew, err := apiKubedb.UpdateMemcached(clientKubedb, ns, memcachedDatabase)
+	if err != nil {
+		panic(err.Error())
+	}
+	utils.ShowYaml(memcachedDatabaseNew)
+
 	// delete memcached
-	//err = apiKubedb.DeleteMemcached(clientKubedb, ns, "memcached-quickstart")
-	//if err != nil {
-	//	panic(err.Error())
-	//}
+	// kubedb delete mc memcached-cluster -n demo
+	err = apiKubedb.DeleteMemcached(clientKubedb, ns, serviceName)
+	if err != nil {
+		panic(err.Error())
+	}
 }

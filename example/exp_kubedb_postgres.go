@@ -31,6 +31,8 @@ func main() {
 	}
 
 	ns := "demo"
+	//serviceName := "postgres-quickstart"
+	serviceName := "postgres-cluster"
 
 	// create the k8s clientset
 	clientK8s, err := kubernetes.NewForConfig(config)
@@ -60,15 +62,40 @@ func main() {
 	}
 
 	// create postgres
-	postgresDatabase, err := apiKubedb.CreatePostgres(clientKubedb, ns)
+	//postgresDatabase, err := apiKubedb.CreatePostgres(clientKubedb, ns)
+	//if err != nil {
+	//	panic(err.Error())
+	//}
+	//utils.ShowYaml(postgresDatabase)
+
+	// get postgres
+	// kubedb get pg -n demo postgres-quickstart -o yaml
+	postgresDatabase, err := apiKubedb.GetPostgres(clientKubedb, ns, serviceName)
 	if err != nil {
 		panic(err.Error())
 	}
 	utils.ShowYaml(postgresDatabase)
 
+	// update postgres
+	/*
+	 * terminationPolicy
+	 * -----------------
+	 * DoNotTerminate	禁止删除
+	 * Pause (Default)	删除实例、保留数据、保留密码
+	 * Delete			删除实例、删除数据、保留密码
+	 * WipeOut			删除实例、删除数据、删除密码
+	 */
+	postgresDatabase.Spec.TerminationPolicy = "WipeOut"
+	postgresDatabaseNew, err := apiKubedb.UpdatePostgres(clientKubedb, ns, postgresDatabase)
+	if err != nil {
+		panic(err.Error())
+	}
+	utils.ShowYaml(postgresDatabaseNew)
+
 	// delete postgres
-	//err = apiKubedb.DeletePostgres(clientKubedb, ns, "postgres-quickstart")
-	//if err != nil {
-	//	panic(err.Error())
-	//}
+	// kubedb delete pg postgres-cluster -n demo
+	err = apiKubedb.DeletePostgres(clientKubedb, ns, serviceName)
+	if err != nil {
+		panic(err.Error())
+	}
 }

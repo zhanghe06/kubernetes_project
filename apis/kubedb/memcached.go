@@ -14,7 +14,8 @@ import (
 
 func CreateMemcached(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.Memcached, error)  {
 	// Memcached
-	templatePath := "templates/tpl_memcached.yaml"
+	//templatePath := "templates/tpl_memcached.yaml"
+	templatePath := "templates/tpl_cluster_memcached.yaml"
 	// 获取模板 TODO getTemplate
 	templateContent, err := ioutil.ReadFile(templatePath)
 	if err != nil {

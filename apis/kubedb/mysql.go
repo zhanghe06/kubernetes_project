@@ -14,7 +14,8 @@ import (
 
 func CreateMysql(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.MySQL, error)  {
 	// MySQL
-	templatePath := "templates/tpl_mysql.yaml"
+	//templatePath := "templates/tpl_mysql.yaml"
+	templatePath := "templates/tpl_cluster_mysql.yaml"
 	// 获取模板 TODO getTemplate
 	templateContent, err := ioutil.ReadFile(templatePath)
 	if err != nil {

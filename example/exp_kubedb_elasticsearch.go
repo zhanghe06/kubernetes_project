@@ -31,6 +31,8 @@ func main() {
 	}
 
 	ns := "demo"
+	//serviceName := "elasticsearch-quickstart"
+	serviceName := "elasticsearch-cluster"
 
 	// create the k8s clientset
 	clientK8s, err := kubernetes.NewForConfig(config)
@@ -60,15 +62,40 @@ func main() {
 	}
 
 	// create elasticsearch
-	elasticsearchDatabase, err := apiKubedb.CreateElasticsearch(clientKubedb, ns)
+	//elasticsearchDatabase, err := apiKubedb.CreateElasticsearch(clientKubedb, ns)
+	//if err != nil {
+	//	panic(err.Error())
+	//}
+	//utils.ShowYaml(elasticsearchDatabase)
+	//
+	// get elasticsearch
+	// kubedb get es -n demo elasticsearch-quickstart -o yaml
+	elasticsearchDatabase, err := apiKubedb.GetElasticsearch(clientKubedb, ns, serviceName)
 	if err != nil {
 		panic(err.Error())
 	}
 	utils.ShowYaml(elasticsearchDatabase)
 
+	// update elasticsearch
+	/*
+	 * terminationPolicy
+	 * -----------------
+	 * DoNotTerminate	禁止删除
+	 * Pause (Default)	删除实例、保留数据、保留密码
+	 * Delete			删除实例、删除数据、保留密码
+	 * WipeOut			删除实例、删除数据、删除密码
+	 */
+	elasticsearchDatabase.Spec.TerminationPolicy = "WipeOut"
+	elasticsearchDatabaseNew, err := apiKubedb.UpdateElasticsearch(clientKubedb, ns, elasticsearchDatabase)
+	if err != nil {
+		panic(err.Error())
+	}
+	utils.ShowYaml(elasticsearchDatabaseNew)
+
 	// delete elasticsearch
-	//err = apiKubedb.DeleteElasticsearch(clientKubedb, ns, "elasticsearch-quickstart")
-	//if err != nil {
-	//	panic(err.Error())
-	//}
+	// kubedb delete es elasticsearch-cluster -n demo
+	err = apiKubedb.DeleteElasticsearch(clientKubedb, ns, serviceName)
+	if err != nil {
+		panic(err.Error())
+	}
 }

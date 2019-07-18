@@ -31,6 +31,8 @@ func main() {
 	}
 
 	ns := "demo"
+	//serviceName := "mysql-quickstart"
+	serviceName := "mysql-cluster"
 
 	// create the k8s clientset
 	clientK8s, err := kubernetes.NewForConfig(config)
@@ -60,15 +62,40 @@ func main() {
 	}
 
 	// create mysql
-	mysqlDatabase, err := apiKubedb.CreateMysql(clientKubedb, ns)
+	//mysqlDatabase, err := apiKubedb.CreateMysql(clientKubedb, ns)
+	//if err != nil {
+	//	panic(err.Error())
+	//}
+	//utils.ShowYaml(mysqlDatabase)
+
+	// get mysql
+	// kubedb get my -n demo mysql-quickstart -o yaml
+	mysqlDatabase, err := apiKubedb.GetMysql(clientKubedb, ns, serviceName)
 	if err != nil {
 		panic(err.Error())
 	}
 	utils.ShowYaml(mysqlDatabase)
 
+	// update mysql
+	/*
+	* terminationPolicy
+	* -----------------
+	* DoNotTerminate	禁止删除
+	* Pause (Default)	删除实例、保留数据、保留密码
+	* Delete			删除实例、删除数据、保留密码
+	* WipeOut			删除实例、删除数据、删除密码
+	*/
+	mysqlDatabase.Spec.TerminationPolicy = "WipeOut"
+	mysqlDatabaseNew, err := apiKubedb.UpdateMysql(clientKubedb, ns, mysqlDatabase)
+	if err != nil {
+		panic(err.Error())
+	}
+	utils.ShowYaml(mysqlDatabaseNew)
+
 	// delete mysql
-	//err = apiKubedb.DeleteMysql(clientKubedb, ns, "mysql-quickstart")
-	//if err != nil {
-	//	panic(err.Error())
-	//}
+	// kubedb delete my mysql-cluster -n demo
+	err = apiKubedb.DeleteMysql(clientKubedb, ns, serviceName)
+	if err != nil {
+		panic(err.Error())
+	}
 }

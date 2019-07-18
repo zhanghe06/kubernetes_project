@@ -1,0 +1,19 @@
+# https://kubedb.com/docs/0.12.0/guides/postgres/clustering/streaming_replication/
+apiVersion: kubedb.com/v1alpha1
+kind: Postgres
+metadata:
+  name: postgres-cluster
+  namespace: demo
+spec:
+  version: "9.6-v2"
+  replicas: 3
+  standbyMode: Hot
+  storageType: Durable
+  storage:
+    storageClassName: "hostpath"
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+

@@ -13,7 +13,8 @@ import (
 
 func CreateRedis(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.Redis, error) {
 	// Redis
-	templatePath := "templates/tpl_redis.yaml"
+	//templatePath := "templates/tpl_redis.yaml"
+	templatePath := "templates/tpl_cluster_redis.yaml"
 	// 获取模板 TODO getTemplate
 	templateContent, err := ioutil.ReadFile(templatePath)
 	if err != nil {

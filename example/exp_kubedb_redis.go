@@ -31,6 +31,8 @@ func main() {
 	}
 
 	ns := "demo"
+	//serviceName := "redis-quickstart"
+	serviceName := "redis-cluster"
 
 	// create the k8s clientset
 	clientK8s, err := kubernetes.NewForConfig(config)
@@ -60,15 +62,15 @@ func main() {
 	}
 
 	// create redis
-	redisDatabase, err := apiKubedb.CreateRedis(clientKubedb, ns)
-	if err != nil {
-		panic(err.Error())
-	}
-	utils.ShowYaml(redisDatabase)
+	//redisDatabase, err := apiKubedb.CreateRedis(clientKubedb, ns)
+	//if err != nil {
+	//	panic(err.Error())
+	//}
+	//utils.ShowYaml(redisDatabase)
 
 	// get redis
 	// kubedb get rd -n demo redis-quickstart -o yaml
-	redisDatabase, err = apiKubedb.GetRedis(clientKubedb, ns, "redis-quickstart")
+	redisDatabase, err := apiKubedb.GetRedis(clientKubedb, ns, serviceName)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -91,7 +93,8 @@ func main() {
 	utils.ShowYaml(redisDatabaseNew)
 
 	// delete redis
-	err = apiKubedb.DeleteRedis(clientKubedb, ns, "redis-quickstart")
+	// kubedb delete rd redis-cluster -n demo
+	err = apiKubedb.DeleteRedis(clientKubedb, ns, serviceName)
 	if err != nil {
 		panic(err.Error())
 	}

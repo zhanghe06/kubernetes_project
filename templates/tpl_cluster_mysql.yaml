@@ -1,0 +1,23 @@
+# https://kubedb.com/docs/0.12.0/guides/mysql/clustering/group_replication_single_primary/
+apiVersion: kubedb.com/v1alpha1
+kind: MySQL
+metadata:
+  name: mysql-cluster
+  namespace: demo
+spec:
+  version: "5.7.25"
+  replicas: 3
+  topology:
+    mode: GroupReplication
+    group:
+      name: "dc002fc3-c412-4d18-b1d4-66c1fbfbbc9b"
+      baseServerID: 100
+  storageType: Durable
+  storage:
+    storageClassName: "hostpath"
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+  terminationPolicy: WipeOut

@@ -14,7 +14,8 @@ import (
 
 func CreatePostgres(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.Postgres, error) {
 	// Postgres
-	templatePath := "templates/tpl_postgres.yaml"
+	//templatePath := "templates/tpl_postgres.yaml"
+	templatePath := "templates/tpl_cluster_postgres.yaml"
 	// 获取模板 TODO getTemplate
 	templateContent, err := ioutil.ReadFile(templatePath)
 	if err != nil {

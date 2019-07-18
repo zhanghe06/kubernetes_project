@@ -31,6 +31,8 @@ func main() {
 	}
 
 	ns := "demo"
+	serviceName := "mongodb-quickstart"
+	//serviceName := "mongodb-cluster"
 
 	// create the k8s clientset
 	clientK8s, err := kubernetes.NewForConfig(config)
@@ -60,15 +62,40 @@ func main() {
 	}
 
 	// create mongodb
-	mongodbDatabase, err := apiKubedb.CreateMongodb(clientKubedb, ns)
+	//mongodbDatabase, err := apiKubedb.CreateMongodb(clientKubedb, ns)
+	//if err != nil {
+	//	panic(err.Error())
+	//}
+	//utils.ShowYaml(mongodbDatabase)
+
+	// get mongodb
+	// kubedb get mg -n demo mongodb-quickstart -o yaml
+	mongodbDatabase, err := apiKubedb.GetMongodb(clientKubedb, ns, serviceName)
 	if err != nil {
 		panic(err.Error())
 	}
 	utils.ShowYaml(mongodbDatabase)
 
+	// update mongodb
+	/*
+	 * terminationPolicy
+	 * -----------------
+	 * DoNotTerminate	禁止删除
+	 * Pause (Default)	删除实例、保留数据、保留密码
+	 * Delete			删除实例、删除数据、保留密码
+	 * WipeOut			删除实例、删除数据、删除密码
+	 */
+	mongodbDatabase.Spec.TerminationPolicy = "WipeOut"
+	mongodbDatabaseNew, err := apiKubedb.UpdateMongodb(clientKubedb, ns, mongodbDatabase)
+	if err != nil {
+		panic(err.Error())
+	}
+	utils.ShowYaml(mongodbDatabaseNew)
+
 	// delete mongodb
-	//err = apiKubedb.DeleteMongodb(clientKubedb, ns, "mongodb-quickstart")
-	//if err != nil {
-	//	panic(err.Error())
-	//}
+	// kubedb delete mg mongodb-cluster -n demo
+	err = apiKubedb.DeleteMongodb(clientKubedb, ns, serviceName)
+	if err != nil {
+		panic(err.Error())
+	}
 }
