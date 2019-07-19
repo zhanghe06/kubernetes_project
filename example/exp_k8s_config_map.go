@@ -1,14 +1,12 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
-	"fmt"
 	"path/filepath"
 
+	apiK8s "github.com/zhanghe06/kubernetes_project/apis/k8s"
 	"github.com/zhanghe06/kubernetes_project/utils"
 
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 )
@@ -34,17 +32,12 @@ func main() {
 		panic(err.Error())
 	}
 
-	// Verify operator installation
-	ns := "kube-system"
-	ls := "app=kubedb"
-	pods, err := clientK8s.CoreV1().Pods(ns).List(metav1.ListOptions{LabelSelector: ls})
-	if err != nil {
-		panic(err.Error())
-	}
+	ns := "kubeapps"
+	configMapName := "kubeapps-frontend-config"
 
-	podsIndentBytes, err := json.MarshalIndent(pods, "", "\t")
+	configMapRes, err := apiK8s.GetConfigMap(clientK8s, ns, configMapName)
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Println(string(podsIndentBytes))
+	utils.ShowJson(configMapRes)
 }
