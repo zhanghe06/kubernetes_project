@@ -1,12 +1,19 @@
-# kubernetes
+# kubernetes Operator 实践
 
-[https://github.com/kubernetes/client-go](https://github.com/kubernetes/client-go)
+通过 K8S Operator 创建基础组件服务
 
-[https://github.com/kubernetes/kubernetes/tree/master/staging/src/k8s.io/client-go](https://github.com/kubernetes/kubernetes/tree/master/staging/src/k8s.io/client-go)
+支持单实例和集群两种模式
 
-[kubedb 示例模板](https://github.com/kubedb/cli/tree/0.12.0/docs/examples)
+目前支持下列组件
 
-[kubedb 示例指导](https://kubedb.com/docs/0.12.0/guides/)
+- [X] ElasticSearch
+- [X] MemCached
+- [X] MongoDB
+- [X] MySQL
+- [X] PostgresQL
+- [X] Redis
+- [ ] RabbitMQ
+
 
 项目演示
 ```
@@ -32,11 +39,27 @@ kubectl config view
 cat .kube/config
 ```
 
-查询可用版本
+获取 CRD 可用版本
 ```
+kubectl get elasticsearchversions
+kubectl get memcachedversions
+kubectl get mongodbversions
 kubectl get mysqlversions
+kubectl get postgresversions
+kubectl get redisversions
 ```
 
 TODO
 - 私有镜像仓库
 - 模板解析
+
+
+参考资料：
+
+[https://github.com/kubernetes/client-go](https://github.com/kubernetes/client-go)
+
+[https://github.com/kubernetes/kubernetes/tree/master/staging/src/k8s.io/client-go](https://github.com/kubernetes/kubernetes/tree/master/staging/src/k8s.io/client-go)
+
+[kubedb 示例模板](https://github.com/kubedb/cli/tree/0.12.0/docs/examples)
+
+[kubedb 示例指导](https://kubedb.com/docs/0.12.0/guides/)

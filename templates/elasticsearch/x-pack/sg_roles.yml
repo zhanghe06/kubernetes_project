@@ -14,7 +14,7 @@ sg_all_access:
 sg_xp_monitoring:
   cluster:
     - cluster:admin/xpack/monitoring/*
-    - cluster:admin/ingest/pipeline/put       
+    - cluster:admin/ingest/pipeline/put
     - cluster:admin/ingest/pipeline/get
     - indices:admin/template/get
     - indices:admin/template/put

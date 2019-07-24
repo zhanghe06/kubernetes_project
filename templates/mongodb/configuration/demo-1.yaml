@@ -9,10 +9,10 @@ spec:
   storage:
     storageClassName: "standard"
     accessModes:
-    - ReadWriteOnce
+      - ReadWriteOnce
     resources:
       requests:
         storage: 1Gi
   configSource:
-      configMap:
-        name: mg-custom-config
+    configMap:
+      name: mg-custom-config

@@ -13,5 +13,5 @@ spec:
   podTemplate:
     spec:
       args:
-      - --all-databases
-      - --default-character-set=utf8mb4
+        - --all-databases
+        - --default-character-set=utf8mb4

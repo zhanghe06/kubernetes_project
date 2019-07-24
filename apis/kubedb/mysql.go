@@ -12,7 +12,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-func CreateMysql(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.MySQL, error)  {
+func CreateMysql(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.MySQL, error) {
 	// MySQL
 	//templatePath := "templates/tpl_mysql.yaml"
 	templatePath := "templates/tpl_cluster_mysql.yaml"

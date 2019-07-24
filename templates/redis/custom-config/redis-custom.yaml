@@ -6,12 +6,12 @@ metadata:
 spec:
   version: "4.0-v1"
   configSource:
-      configMap:
-        name: rd-custom-config
+    configMap:
+      name: rd-custom-config
   storage:
     storageClassName: "standard"
     accessModes:
-    - ReadWriteOnce
+      - ReadWriteOnce
     resources:
       requests:
         storage: 1Gi

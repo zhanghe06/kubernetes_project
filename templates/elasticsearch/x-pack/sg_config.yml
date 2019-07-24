@@ -9,7 +9,7 @@ searchguard:
           challenge: false
         authentication_backend:
           type: internal
-      basic_internal_auth_domain: 
+      basic_internal_auth_domain:
         http_enabled: true
         transport_enabled: true
         order: 1

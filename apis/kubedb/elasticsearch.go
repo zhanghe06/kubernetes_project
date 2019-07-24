@@ -12,7 +12,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-func CreateElasticsearch(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.Elasticsearch, error)  {
+func CreateElasticsearch(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.Elasticsearch, error) {
 	// Elasticsearch
 	//templatePath := "templates/tpl_elasticsearch.yaml"
 	templatePath := "templates/tpl_cluster_elasticsearch.yaml"

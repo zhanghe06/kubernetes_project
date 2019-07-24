@@ -4,4 +4,4 @@ metadata:
   name: demo
 spec:
   finalizers:
-  - kubernetes
+    - kubernetes

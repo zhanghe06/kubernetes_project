@@ -12,7 +12,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-func CreateMongodb(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.MongoDB, error)  {
+func CreateMongodb(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.MongoDB, error) {
 	// MongoDB
 	templatePath := "templates/tpl_mongodb.yaml"
 	//templatePath := "templates/tpl_cluster_mongodb.yaml"

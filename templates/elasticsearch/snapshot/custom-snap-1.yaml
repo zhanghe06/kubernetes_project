@@ -13,7 +13,7 @@ spec:
   podVolumeClaimSpec:
     storageClassName: "standard"
     accessModes:
-    - ReadWriteOnce
+      - ReadWriteOnce
     resources:
       requests:
         storage: 1Gi # make sure size is larger or equal than your database size

@@ -19,7 +19,7 @@ spec:
   storage:
     storageClassName: standard
     accessModes:
-    - ReadWriteOnce
+      - ReadWriteOnce
     resources:
       requests:
         storage: 1Gi
@@ -54,10 +54,10 @@ spec:
       nodeSelector:
         disktype: ssd
       imagePullSecrets:
-      - name: myregistrykey
+        - name: myregistrykey
       env:
-      - name: POSTGRES_DB
-        value: pgdb
+        - name: POSTGRES_DB
+          value: pgdb
       resources:
         requests:
           memory: "64Mi"
@@ -71,9 +71,9 @@ spec:
     spec:
       type: NodePort
       ports:
-      - name:  http
-        port:  5432
-        targetPort: http
+        - name:  http
+          port:  5432
+          targetPort: http
   updateStrategy:
     type: RollingUpdate
   terminationPolicy: "DoNotTerminate"

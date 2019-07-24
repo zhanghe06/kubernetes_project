@@ -1,4 +1,3 @@
-
 apiVersion: kubedb.com/v1alpha1
 kind: MySQL
 metadata:
@@ -9,7 +8,7 @@ spec:
   storage:
     storageClassName: "standard"
     accessModes:
-    - ReadWriteOnce
+      - ReadWriteOnce
     resources:
       requests:
         storage: 1Gi
@@ -21,4 +20,4 @@ spec:
     podTemplate:
       spec:
         args:
-        - --extra-args-to-backup-command
+          - --extra-args-to-backup-command

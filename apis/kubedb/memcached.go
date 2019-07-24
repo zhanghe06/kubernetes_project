@@ -12,7 +12,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-func CreateMemcached(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.Memcached, error)  {
+func CreateMemcached(clientKubedb *kubedb.Clientset, ns string) (*kubedbV1.Memcached, error) {
 	// Memcached
 	//templatePath := "templates/tpl_memcached.yaml"
 	templatePath := "templates/tpl_cluster_memcached.yaml"

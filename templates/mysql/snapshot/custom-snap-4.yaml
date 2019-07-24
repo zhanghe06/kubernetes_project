@@ -13,4 +13,4 @@ spec:
   podTemplate:
     spec:
       args:
-      - --extra-args-to-backup-command
+        - --extra-args-to-backup-command

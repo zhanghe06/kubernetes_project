@@ -9,17 +9,17 @@ spec:
   storage:
     storageClassName: "standard"
     accessModes:
-    - ReadWriteOnce
+      - ReadWriteOnce
     resources:
       requests:
         storage: 1Gi
   podTemplate:
     spec:
       env:
-      - name: MYSQL_DATABASE
-        value: myDB
+        - name: MYSQL_DATABASE
+          value: myDB
       args:
-      - --character-set-server=utf8mb4
+        - --character-set-server=utf8mb4
       resources:
         requests:
           memory: "1Gi"

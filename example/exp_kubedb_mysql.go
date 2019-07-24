@@ -78,13 +78,13 @@ func main() {
 
 	// update mysql
 	/*
-	* terminationPolicy
-	* -----------------
-	* DoNotTerminate	禁止删除
-	* Pause (Default)	删除实例、保留数据、保留密码
-	* Delete			删除实例、删除数据、保留密码
-	* WipeOut			删除实例、删除数据、删除密码
-	*/
+	 * terminationPolicy
+	 * -----------------
+	 * DoNotTerminate	禁止删除
+	 * Pause (Default)	删除实例、保留数据、保留密码
+	 * Delete			删除实例、删除数据、保留密码
+	 * WipeOut			删除实例、删除数据、删除密码
+	 */
 	mysqlDatabase.Spec.TerminationPolicy = "WipeOut"
 	mysqlDatabaseNew, err := apiKubedb.UpdateMysql(clientKubedb, ns, mysqlDatabase)
 	if err != nil {

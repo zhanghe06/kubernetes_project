@@ -6,7 +6,7 @@ import (
 	"github.com/ghodss/yaml"
 )
 
-func ShowJson(v interface{})  {
+func ShowJson(v interface{}) {
 	// show json
 	jsonIndentBytes, err := json.MarshalIndent(v, "", "\t")
 	if err != nil {
@@ -15,7 +15,7 @@ func ShowJson(v interface{})  {
 	fmt.Println(string(jsonIndentBytes))
 }
 
-func ShowYaml(v interface{})  {
+func ShowYaml(v interface{}) {
 	// show yaml
 	yamlBytes, err := yaml.Marshal(v)
 	if err != nil {

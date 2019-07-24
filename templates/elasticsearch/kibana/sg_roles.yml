@@ -13,10 +13,10 @@ sg_all_access:
 sg_kibana_user:
   readonly: true
   cluster:
-      - CLUSTER_MONITOR
-      - CLUSTER_COMPOSITE_OPS
-      - cluster:admin/xpack/monitoring*
-      - indices:admin/template*
+    - CLUSTER_MONITOR
+    - CLUSTER_COMPOSITE_OPS
+    - cluster:admin/xpack/monitoring*
+    - indices:admin/template*
   indices:
     '*':
       '*':

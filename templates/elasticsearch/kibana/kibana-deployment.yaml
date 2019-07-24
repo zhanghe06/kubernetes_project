@@ -14,12 +14,12 @@ spec:
         app: kibana
     spec:
       containers:
-      - name: kibana
-        image: kubedb/kibana:6.3.0
-        volumeMounts:
-        - name:  kibana-config
-          mountPath: /usr/share/kibana/config
+        - name: kibana
+          image: kubedb/kibana:6.3.0
+          volumeMounts:
+            - name:  kibana-config
+              mountPath: /usr/share/kibana/config
       volumes:
-      - name:  kibana-config
-        configMap:
-          name: kibana-config
+        - name:  kibana-config
+          configMap:
+            name: kibana-config

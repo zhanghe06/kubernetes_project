@@ -18,4 +18,4 @@ spec:
   podTemplate:
     spec:
       imagePullSecrets:
-      - name: myregistrykey
+        - name: myregistrykey
