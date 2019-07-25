@@ -1,4 +1,4 @@
-# kubernetes Operator 实践
+# Kubernetes Operator 实践
 
 通过 K8S Operator 创建基础组件服务
 
@@ -29,7 +29,7 @@ go get github.com/imdario/mergo
 
 # 配置环境
 govendor init
-govendor add +e
+govendor sync
 ```
 
 

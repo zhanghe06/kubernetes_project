@@ -46,14 +46,4 @@ func main() {
 		panic(err.Error())
 	}
 	utils.ShowJson(serviceRes)
-
-	//
-	//fmt.Println(string(data["POSTGRES_PASSWORD"])) // 明文
-	//
-	//data["POSTGRES_PASSWORD"] = []byte("EUq1vfI1PTRM3dXO") // 这里明文，不需要编码
-	//serviceResNew, err := apiK8s.UpdateSecret(clientK8s, ns, serviceRes)
-	//if err != nil {
-	//	panic(err.Error())
-	//}
-	//utils.ShowJson(serviceResNew.Data)
 }

@@ -3,14 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"k8s.io/apimachinery/pkg/api/errors"
 	"path/filepath"
 
 	apiK8s "github.com/zhanghe06/kubernetes_project/apis/k8s"
-	apiKubedb "github.com/zhanghe06/kubernetes_project/apis/kubedb"
+	apiK8sExt "github.com/zhanghe06/kubernetes_project/apis/k8s/extensions"
 	"github.com/zhanghe06/kubernetes_project/utils"
 
-	kubedb "github.com/kubedb/apimachinery/client/clientset/versioned"
+	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 )
@@ -30,7 +29,8 @@ func main() {
 		panic(err.Error())
 	}
 
-	ns := "demo"
+	ns := "kube-system"
+	deploymentName := "kubedb-operator"
 
 	// create the k8s clientset
 	clientK8s, err := kubernetes.NewForConfig(config)
@@ -42,62 +42,16 @@ func main() {
 	namespaceRes, err := apiK8s.GetNamespace(clientK8s, ns)
 	if err != nil {
 		if errors.IsNotFound(err) {
-			//create namespace
-			namespaceRes, err = apiK8s.AddNamespace(clientK8s, ns)
-			if err != nil {
-				panic(err.Error())
-			}
-		} else {
-			panic(err.Error())
+			fmt.Printf("namespace %s not found", ns)
 		}
+		panic(err.Error())
 	}
 	fmt.Println(namespaceRes.Name)
 
-	// create the kubedb clientset
-	clientKubedb, err := kubedb.NewForConfig(config)
+	// get kubedb deployment
+	deployment, err := apiK8sExt.GetDeployment(clientK8s, ns, deploymentName)
 	if err != nil {
 		panic(err.Error())
 	}
-
-	// kubectl get elasticsearchversions
-	elasticsearchVersionList, err := apiKubedb.ListElasticsearchVersions(clientKubedb)
-	if err != nil {
-		panic(err.Error())
-	}
-	utils.ShowJson(elasticsearchVersionList)
-
-	// kubectl get memcachedversions
-	memcachedVersionList, err := apiKubedb.ListMemcachedVersions(clientKubedb)
-	if err != nil {
-		panic(err.Error())
-	}
-	utils.ShowJson(memcachedVersionList)
-
-	// kubectl get mongodbversions
-	mongoDBVersionList, err := apiKubedb.ListMongoDBVersions(clientKubedb)
-	if err != nil {
-		panic(err.Error())
-	}
-	utils.ShowJson(mongoDBVersionList)
-
-	// kubectl get mysqlversions
-	mySQLVersionList, err := apiKubedb.ListMySQLVersions(clientKubedb)
-	if err != nil {
-		panic(err.Error())
-	}
-	utils.ShowJson(mySQLVersionList)
-
-	// kubectl get postgresversions
-	postgresVersionList, err := apiKubedb.ListPostgresVersions(clientKubedb)
-	if err != nil {
-		panic(err.Error())
-	}
-	utils.ShowJson(postgresVersionList)
-
-	// kubectl get redisversions
-	redisVersionList, err := apiKubedb.ListRedisVersions(clientKubedb)
-	if err != nil {
-		panic(err.Error())
-	}
-	utils.ShowJson(redisVersionList)
+	utils.ShowJson(deployment)
 }
